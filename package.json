@@ -1,0 +1,26 @@
+{
+  "name": "proyecto-portafolio-ecommerce",
+  "version": "1.0.0",
+  "description": "Portfolio Ecommerce",
+  "homepage": "https://github.com/Unai-2006Millan/portafolio_Ecommerce#readme",
+  "bugs": {
+    "url": "https://github.com/Unai-2006Millan/portafolio_Ecommerce/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Unai-2006Millan/portafolio_Ecommerce.git"
+  },
+  "license": "ISC",
+  "author": "Unai Rafales",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "nodemon": "^3.1.11"
+  }
+}
