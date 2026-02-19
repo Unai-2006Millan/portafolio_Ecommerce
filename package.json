@@ -20,8 +20,13 @@
     "dev": "nodemon app.js"
   },
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "express": "^5.2.1",
-    "nodemon": "^3.1.11",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0",
     "pg": "^8.18.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
   }
 }

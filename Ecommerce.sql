@@ -1,12 +1,12 @@
 CREATE TABLE "usuarios" (
-  "id" integer PRIMARY KEY,
+  "id" integer GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   "nombre_completo" varchar,
   "email" varchar UNIQUE,
   "contrasenia" varchar
 );
 
 CREATE TABLE "productos" (
-  "id" integer PRIMARY KEY,
+  "id" integer  GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   "nombre" varchar,
   "descripcion" varchar,
   "precio" money,
@@ -14,7 +14,7 @@ CREATE TABLE "productos" (
 );
 
 CREATE TABLE "carrito_usuario" (
-  "id_carrito" integer PRIMARY KEY,
+  "id_carrito" integer GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   "id_usuario" integer REFERENCES "usuarios" ("id") UNIQUE,
   "precio_total" money NOT NULL
 );
@@ -28,7 +28,7 @@ CREATE TABLE "carrito_productos" (
 );
 
 CREATE TABLE "pedidos" (
-  "id_pedido" integer PRIMARY KEY,
+  "id_pedido" integer GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   "id_usuario" integer REFERENCES "usuarios" ("id") UNIQUE,
   "precio_total" money NOT NULL,
   "estado" varchar NOT NULL
