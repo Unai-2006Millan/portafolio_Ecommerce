@@ -11,7 +11,8 @@ app.use(express.json());
 const usersRouter = require('./routes/users.routes');
 app.use('/users', usersRouter);
 
-
+const productsRouter = require('./routes/products.routes');
+app.use('/products', productsRouter);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
