@@ -11,6 +11,15 @@ exports.getProducts = async () => {
     }
 }
 
+exports.getProductStock = async (id) => {
+    try {
+        const result = await db.query('select stock from productos where id = $1', [id]);
+        return result.rows[0].stock;
+    } catch (err) {
+        throw new Error('Error fetching product stock: ' + err.message);
+    }
+}
+
 exports.create = async (product) => {
     try {
 
@@ -38,6 +47,15 @@ exports.getById = async (id) => {
     }
 }
 
+exports.getPriceById = async (id) => {
+    try {
+        const result = await db.query('SELECT (precio::numeric)::float8 AS precio FROM productos WHERE id = $1', [id]);
+        return result.rows[0].precio;
+        
+    }catch (err) {
+        throw new Error('Error fetching product price by ID: ' + err.message);
+    }
+}
 exports.update = async (id, product) => {
     try {
 
@@ -51,6 +69,19 @@ exports.update = async (id, product) => {
 
     } catch (err) {
         throw new Error('Error updating product: ' + err.message);
+    }
+}
+
+exports.updateStock = async (id, stock) => {
+    try {
+        const result = await db.query(
+            'update productos set stock = $1 where id = $2 returning *',
+            [stock, id]
+        );
+        console.log("Updating product stock: " + result.rows[0]);
+        return result.rows[0];
+    } catch (err) {
+        throw new Error('Error updating product stock: ' + err.message);
     }
 }
 

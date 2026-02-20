@@ -16,7 +16,7 @@ CREATE TABLE "productos" (
 CREATE TABLE "carrito_usuario" (
   "id_carrito" integer GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   "id_usuario" integer REFERENCES "usuarios" ("id") UNIQUE,
-  "precio_total" money NOT NULL
+  "precio_total" money
 );
 
 CREATE TABLE "carrito_productos" (
