@@ -13,7 +13,11 @@ exports.getProducts = async () => {
 
 exports.getProductStock = async (id) => {
     try {
+        console.log('Fetching stock for product ID:', id);
         const result = await db.query('select stock from productos where id = $1', [id]);
+        if (!result.rows[0]) {
+            throw new Error('Product with ID ' + id + ' not found');
+        }
         return result.rows[0].stock;
     } catch (err) {
         throw new Error('Error fetching product stock: ' + err.message);
@@ -23,10 +27,10 @@ exports.getProductStock = async (id) => {
 exports.create = async (product) => {
     try {
 
-        const { nombre, description, price, stock } = product;
+        const { nombre, description, precio, stock } = product;
         const result = await db.query(
             'insert into productos (nombre, descripcion, precio, stock) values ($1, $2, $3, $4) returning *',
-            [nombre, description, price, stock]
+            [nombre, description, precio, stock]
         );
         console.log("Creating product: " + result.rows[0]);
         console.log("Successfully created product: " + result.rows[0]);
@@ -50,6 +54,9 @@ exports.getById = async (id) => {
 exports.getPriceById = async (id) => {
     try {
         const result = await db.query('SELECT (precio::numeric)::float8 AS precio FROM productos WHERE id = $1', [id]);
+        if (!result.rows[0]) {
+            throw new Error('Product not found');
+        }
         return result.rows[0].precio;
         
     }catch (err) {
@@ -59,10 +66,10 @@ exports.getPriceById = async (id) => {
 exports.update = async (id, product) => {
     try {
 
-        const { nombre, description, price, stock } = product;
+        const { nombre, description, precio, stock } = product;
         const result = await db.query(
             'update productos set nombre = $1, descripcion = $2, precio = $3, stock = $4 where id = $5 returning *',
-            [nombre, description, price, stock, id]
+            [nombre, description, precio, stock, id]
         );
         console.log("Updating product: " + result.rows[0]);
         return result.rows[0];

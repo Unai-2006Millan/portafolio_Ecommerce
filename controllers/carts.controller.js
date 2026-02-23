@@ -1,5 +1,6 @@
 const cartsModel = require('../models/carts.model');
 const usersModel = require('../models/users.model');
+const ordersModel = require('../models/orders.model');
 
 // Controladores para manejar carritos
 
@@ -134,10 +135,34 @@ exports.removeProductFromCart = async ( req, res) => {
     try {
 
         await cartsModel.removeProductFromCart(req.params.id, req.params.productId);
+        const total = await cartsModel.getCartTotalPrice(req.params.id);
+        await cartsModel.updateTotal_price(req.params.id, total);
         res.status(204).send();
         console.log("Successfully removed product id " + req.params.productId + " from cart id " + req.params.id);
         
     } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+}
+
+
+// Controlador para manejar el proceso de compra
+
+exports.orderCart = async (req, res) => {
+    try {
+        const cart = await cartsModel.getById(req.params.id);
+        if (!cart) {
+            return res.status(404).json({ error: 'Cart not found' });
+        }
+        const total_price = await cartsModel.getCartTotalPrice(req.params.id);
+        
+        const cart_products = await cartsModel.getCartProducts(req.params.id);
+
+        const order = await ordersModel.createFromCart(cart, cart_products, total_price);
+        res.status(201).json(order);
+        console.log("Successfully created order from cart id " + req.params.id + ": " + JSON.stringify(order));
+
+    }catch (err) {
         res.status(500).json({ error: err.message });
     }
 }

@@ -19,4 +19,7 @@ router.post('/:id/products', cartsController.addProductToCart);
 router.put('/:id/products/:productId', cartsController.updateCartProduct);
 router.delete('/:id/products/:productId', cartsController.removeProductFromCart);
 
+// Ruta para manejar el proceso de compra
+router.post('/:id/orderCart', cartsController.orderCart);
+
 module.exports = router;

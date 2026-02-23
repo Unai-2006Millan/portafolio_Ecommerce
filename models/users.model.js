@@ -41,22 +41,40 @@ exports.getById = async (id) => {
 }
 
 exports.findByEmail = async (email) => {
-    const result = await db.query('select * from usuarios where email = $1', [email]);
-    return result.rows[0];
+    try {
+
+        const result = await db.query('select * from usuarios where email = $1', [email]);
+        return result.rows[0];
+
+    } catch(err) {
+        throw new Error('Error fetching user by email: ' + err.message);
+    }
 }
 
 exports.update = async (id, user) => {
-    const { nombre, email, contrasenia } = user;
-    const hashedPassword = await bcrypt.hash(contrasenia, 10);
+    try {
 
-    const result = await db.query('update usuarios set nombre_completo = $1, email = $2, contrasenia = $3 where id = $4 returning *', 
-    [nombre, email, hashedPassword, id]);
+        const { nombre, email, contrasenia } = user;
+        const hashedPassword = await bcrypt.hash(contrasenia, 10);
 
-    return result.rows[0];
+        const result = await db.query('update usuarios set nombre_completo = $1, email = $2, contrasenia = $3 where id = $4 returning *', 
+        [nombre, email, hashedPassword, id]);
+
+        return result.rows[0];
+
+    } catch(err) {
+        throw new Error('Error updating user: ' + err.message);
+    }
 }
 
 exports.delete = async (id) => {
-    await db.query('delete from usuarios where id = $1', [id]);
+    try {
 
-    console.log("Successfully deleted user with ID: " + id);
+        await db.query('delete from usuarios where id = $1', [id]);
+
+        console.log("Successfully deleted user with ID: " + id);
+
+    } catch(err) {
+        throw new Error('Error deleting user: ' + err.message);
+    }
 }

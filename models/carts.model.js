@@ -81,6 +81,13 @@ exports.updateTotal_price = async (id, precio_total) => {
 
 exports.delete = async (id) => {
     try {
+
+        console.log("Borrando productos del carrito con ID: " + id);
+
+        await db.query('DELETE FROM carrito_productos WHERE id_carrito = $1', [id]);
+
+        console.log("Borrando carrito con ID: " + id);
+
         await db.query('DELETE FROM carrito_usuario WHERE id_carrito = $1', [id]);
 
         console.log("Successfully deleted cart with ID: " + id);
@@ -96,7 +103,7 @@ exports.getCartProducts = async (cartId) => {
     try {
 
         const result = await db.query(
-            `SELECT p.nombre, (p.precio::numeric)::float8 AS precio, cp.cantidad, (cp.precio_total_producto::numeric)::float8 AS precio_total_producto
+            `SELECT cp.id_producto, p.nombre, (p.precio::numeric)::float8 AS precio, cp.cantidad, (cp.precio_total_producto::numeric)::float8 AS precio_total_producto
              FROM productos p
              JOIN carrito_productos cp ON p.id = cp.id_producto
              WHERE cp.id_carrito = $1`,

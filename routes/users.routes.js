@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 const usersController = require('../controllers/users.controller');
 const cartsRouter = require('./carts.routes');
+const ordersRouter = require('./orders.routes');
 
-// Nested routes for carts
+router.use('/orders', ordersRouter);
 router.use('/carts', cartsRouter);
-
 
 router.get('/', usersController.getUsers);
 router.post('/register', usersController.createUser);

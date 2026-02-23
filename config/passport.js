@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 
 passport.use(new LocalStrategy(
     { usernameField: 'email' },
-    async (email, password, done) => {
+    async (email, contrasenia, done) => {
         try {
             const user = await usersModel.findByEmail(email);
 
@@ -13,7 +13,7 @@ passport.use(new LocalStrategy(
                 return done(null, false, { message: 'Incorrect email.' });
             }
 
-            const isMatch = await bcrypt.compare(password, user.contrasenia);
+            const isMatch = await bcrypt.compare(contrasenia, user.contrasenia);
 
             if(!isMatch) {
                 return done(null, false, { message: 'Incorrect password.' });

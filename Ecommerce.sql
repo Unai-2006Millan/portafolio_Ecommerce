@@ -23,13 +23,13 @@ CREATE TABLE "carrito_productos" (
   "id_carrito" integer,
   "id_producto" integer,
   "cantidad" integer NOT NULL,
-  "precio_total_producto" money NOT NULL,
+  "precio_total_producto" decimal(10,2) NOT NULL,
   PRIMARY KEY ("id_carrito", "id_producto")
 );
 
 CREATE TABLE "pedidos" (
   "id_pedido" integer GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  "id_usuario" integer REFERENCES "usuarios" ("id") UNIQUE,
+  "id_usuario" integer REFERENCES "usuarios" ("id"),
   "precio_total" money NOT NULL,
   "estado" varchar NOT NULL
 );
