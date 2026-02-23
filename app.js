@@ -3,6 +3,10 @@ const app = express()
 const port = 3000
 const db = require('./db');
 const passport = require('./config/passport');
+const swaggerSpec = require('./config/swagger');
+const swaggerUi = require('swagger-ui-express');
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use(passport.initialize());
 
